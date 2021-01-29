@@ -1,0 +1,20 @@
+{
+  "development": {
+    "username": "root",
+    "password": "mysql",
+    "database": "my_demo",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "jeary_cn_db",
+    "password": "EcST72j6Ahpde87J",
+    "database": "jeary_cn_db",
+    "host": "47.103.74.102",
+    "dialect": "mysql"
+  },
+  "wxKey": {
+    "APPID" : "wx983c25737e22db05",
+    "SECRET" : "806eec1b214dea48657e5a50a1cc4f29"
+  }
+}
