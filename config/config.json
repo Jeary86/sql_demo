@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "root",
-    "password": "mysql",
-    "database": "my_demo",
-    "host": "127.0.0.1",
+    "username": "node_sql",
+    "password": "sbrrWWryXpesfnb2",
+    "database": "node_sql",
+    "host": "47.103.74.102",
     "dialect": "mysql"
   },
   "production": {
