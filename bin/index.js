@@ -1,8 +1,10 @@
-#!/usr/bin/env node
-
 /**
- * Module dependencies.
+ * @author: zhangyh-k@glondon.com
+ * @description:
+ * @Date: 2021/1/31 12:41
  */
+
+process.env.NODE_ENV = 'production'
 
 var app = require('../app');
 var debug = require('debug')('sql-demo:server');
@@ -87,10 +89,7 @@ function onListening() {
         ? 'pipe ' + addr
         : 'port ' + addr.port;
     debug('Listening on ' + bind);
-<<<<<<< HEAD
 
-=======
     console.log(process.env.NODE_ENV);
->>>>>>> 62c4cc9a6e73633ae248080c25e08ca4caa284e2
-    console.log(`Server running at http://localhost:${addr.port}/api`);
+    console.log(`Server running at https://jeary.cn:${addr.port}/`);
 }

@@ -74,6 +74,15 @@ const delUser = async function (req, res) {
 
 }
 
+const userList = async function (req, res) {
+    User.findAll()
+    .then(result => {
+        return resSuc(res, result)
+    }).catch(err => {
+        return resMsg(res, err);
+    })
+}
+
 const updateUser = async function (req, res) {
 
     let user_id = req.body.user_id | '';
@@ -104,5 +113,6 @@ const updateUser = async function (req, res) {
 module.exports = {
     register,
     delUser,
-    updateUser
+    updateUser,
+    userList
 };

@@ -1,5 +1,12 @@
 {
   "development": {
+    "username": "root",
+    "password": "mysql",
+    "database": "my_demo",
+    "host": "localhost",
+    "dialect": "mysql"
+  },
+  "test": {
     "username": "node_sql",
     "password": "sbrrWWryXpesfnb2",
     "database": "node_sql",
@@ -16,5 +23,11 @@
   "wxKey": {
     "APPID" : "wx983c25737e22db05",
     "SECRET" : "806eec1b214dea48657e5a50a1cc4f29"
+  },
+  "wechat" :{
+    "appID" : "wx0f9927c4e0ce1444",
+    "appsecret" : "10865b67df723c55687b6c6bcd369990",
+    "token" : "jeary86"
   }
 }
+
