@@ -1,5 +1,12 @@
 {
   "development": {
+    "username": "root",
+    "password": "mysql",
+    "database": "my_demo",
+    "host": "localhost",
+    "dialect": "mysql"
+  },
+  "test": {
     "username": "node_sql",
     "password": "sbrrWWryXpesfnb2",
     "database": "node_sql",
@@ -18,3 +25,4 @@
     "SECRET" : "806eec1b214dea48657e5a50a1cc4f29"
   }
 }
+

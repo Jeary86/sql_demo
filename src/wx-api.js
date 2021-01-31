@@ -5,7 +5,7 @@
  */
 const request = require('request');
 const config = require('../config/config')
-const wxUser = require('../models/wxuser')
+const { wxUser , wxUserInfo } = require('../models/wxuser')
 const jwt = require('jsonwebtoken');
 const secret = require('../utils/jwtKey')
 const { resFun , resSuc , resMsg } = require('../utils/response');
@@ -17,16 +17,26 @@ const wxLogin = async function (req, res) {
     request(apiUrl,async function (err,data,req) {
         if(!err){
 
-            let data = JSON.parse(req)
+            let dataJson = JSON.parse(req)
+
+            // console.log(data)
+
+            // let params = {
+            //     openid: "oVeG45UgIY-e-2YS4LsqBv38ipoM",
+            //     session_key: "1hgWf/U/lsLOSxMLNEUJZw==",
+            // }
 
             let params = {
-                openid: "081a0i0w3dSGKV2W344w3Aw",
-                session_key: "081a0i0w3dSGKV2W344w3Aw",
+                openid: dataJson.openid,
+                session_key: dataJson.session_key,
             }
+
+
+            // return resMsg(res, params)
 
             wxUser.findOne({
                 where: {
-                    openid: "081a0i0w3dSGKV2W344w3Aw"
+                    openid:dataJson.openid
                 }
             }).then(rest => {
 
@@ -35,19 +45,19 @@ const wxLogin = async function (req, res) {
                     console.log("数据库没有相对的openid")
 
                     wxUser.create({
-                        uuid: require('../utils/util').uuid,
+                        uuId: require('../utils/util').uuid,
                         openid: params.openid,
                         session_key: params.session_key
                     }).then(resul =>{
 
                         let userInfo={
-                            uuid: resul.uuid
+                            uuId: resul.uuId
                         }
 
                         let token = jwt.sign(userInfo,secret, { expiresIn: '1day' })
 
 
-                        console.log('添加token成功:' + userInfo.uuid)
+                        console.log('添加token成功:' + userInfo.uuId)
 
                         res.json({token: token})
 
@@ -61,10 +71,10 @@ const wxLogin = async function (req, res) {
                 }else {
 
                     let userInfo={
-                        uuid: rest.uuid
+                        uuId: rest.uuId
                     }
 
-                    console.log("用户已存在:" + userInfo.uuid)
+                    console.log("用户已存在:" + userInfo.uuId)
 
                     const token = jwt.sign(userInfo, secret, { expiresIn: '1day' })
                     res.json({token: token})
@@ -72,7 +82,7 @@ const wxLogin = async function (req, res) {
 
             }).catch(err=>{
                 // console.log(err)
-                return resMsg(res, "接口错误")
+                return resMsg(res, err)
             })
 
 
@@ -80,6 +90,50 @@ const wxLogin = async function (req, res) {
     })
 }
 
+const wxSetUserInfo = async function(req,res){
+    let params = {
+        nickName: "",
+        province: "",
+        city : "",
+        gender : "",
+        avatarUrl : "",
+    }
+
+    Object.assign(params, req.body)
+
+    console.log(params.gender)
+
+    if (params.gender === '1'){
+        params.gender = '男'
+    }else {
+        params.gender = '女'
+    }
+
+    // wxUserInfo.create(params)
+    // .then(resul =>{
+    //     return resMsg(res, resul)
+    // })
+
+    wxUserInfo.findAll({
+        attributes: ['uuId','nickName','province'],
+        include:[{
+            model : wxUser,
+            as : 'data',
+            attributes: ['openid']
+        }],
+        where : {
+            // nickName : 'jeary',
+            '$data.id$': 1
+        },
+        // raw:true
+    }).then(rest =>{
+        return resMsg(res, rest)
+    })
+
+
+}
+
 module.exports = {
-    wxLogin
+    wxLogin,
+    wxSetUserInfo
 }
