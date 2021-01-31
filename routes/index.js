@@ -1,9 +1,10 @@
 const { wxLogin , wxSetUserInfo } = require('../src/wx-api')
 const uploadImg = require('../src/uploadImg')
-const { register , delUser , updateUser } = require('../src/register')
+const { register , delUser , updateUser ,userList  } = require('../src/register')
 const { login , clearUser , userInfo } = require('../src/login');
 const { uploadWorks , worksList } = require('../src/works');
 const { getTest , setTest1 , setTest2 ,testToken } = require('../src/test-api');
+const { waChat } = require('../src/wachat')
 
 const routers = (router) => {
 
@@ -18,6 +19,9 @@ const routers = (router) => {
     router.post('/setTest2',setTest2);
     /** 解析token **/
     router.get('/testToken',testToken);
+    /** 测试号验证 **/
+    router.get('/waChat',waChat);
+
 
     /** 微信登录获取token **/
     router.get('/wxLogin',wxLogin);
@@ -33,6 +37,9 @@ const routers = (router) => {
 
     /** 添加用户 **/
     router.post('/register', register);
+
+    /** 用户列表 **/
+    router.get('/userList', userList);
 
     /** 修改用户名密码 **/
     router.post('/updateUser', updateUser);
