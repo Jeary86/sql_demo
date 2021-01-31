@@ -87,10 +87,6 @@ function onListening() {
         ? 'pipe ' + addr
         : 'port ' + addr.port;
     debug('Listening on ' + bind);
-<<<<<<< HEAD
-
-=======
     console.log(process.env.NODE_ENV);
->>>>>>> 62c4cc9a6e73633ae248080c25e08ca4caa284e2
     console.log(`Server running at http://localhost:${addr.port}/api`);
 }
