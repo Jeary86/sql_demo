@@ -7,6 +7,8 @@
 const { resFun , resSuc , resMsg } = require('../utils/response');
 const User = require('../models/user')
 const myCrypto = require('../utils/crypto');
+const jwt = require('jsonwebtoken');
+const secret = require('../utils/jwtKey')
 
 const register = async function (req, res) {
     let params = {
@@ -86,6 +88,7 @@ const userList = async function (req, res) {
 const updateUser = async function (req, res) {
 
     let user_id = req.body.user_id | '';
+    let userInfo
 
     let params = {
         user_name : '',
@@ -96,13 +99,31 @@ const updateUser = async function (req, res) {
 
     params.user_password = myCrypto(params.user_password);
 
+    if (req.session.token){
+        userInfo = jwt.verify(req.session.token,secret)
+    }else {
+        return resFun(res, 20000)
+    }
+
     User.update(params,{
         silent: false,
         where : {
             user_id : user_id
         }
     }).then(rest =>{
-        return resMsg(res, '修改成功');
+        
+        if (userInfo.user_id != user_id) {
+            res.json({
+                code: 0,
+                msg: '修改成功返回'
+            })
+        }else {
+            req.session.destroy();
+            res.json({
+                code: 1,
+                msg: '修改成功-重新登录'
+            })
+        }
     }).catch(err=>{
         return resFun(res, 1)
     })

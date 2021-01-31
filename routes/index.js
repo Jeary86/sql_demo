@@ -2,7 +2,7 @@ const { wxLogin , wxSetUserInfo } = require('../src/wx-api')
 const uploadImg = require('../src/uploadImg')
 const { register , delUser , updateUser ,userList  } = require('../src/register')
 const { login , clearUser , userInfo } = require('../src/login');
-const { uploadWorks , worksList } = require('../src/works');
+const { uploadWorks , worksList , delWorks , worksDetails , worksDetailsSave } = require('../src/works');
 const { getTest , setTest1 , setTest2 ,testToken } = require('../src/test-api');
 const { waChat } = require('../src/wachat')
 
@@ -58,6 +58,16 @@ const routers = (router) => {
 
     /** 作品列表 **/
     router.get('/worksList', worksList);
+
+    /** 修改详情页 **/
+    router.post('/worksDetailsSave', worksDetailsSave);
+
+    /** 作品详情页 **/
+    router.get('/worksDetails', worksDetails);
+
+    /** 删除作品 **/
+    router.post('/delWorks', delWorks);
+
 
     return router;
 

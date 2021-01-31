@@ -28,7 +28,7 @@ const login = async function (req, res) {
     }).then(rest =>{
 
         if (rest) {
-            // console.log('登录成功',params)
+            params.user_id = rest.dataValues.user_id
 
             req.session.token = jwt.sign(params, secret, { expiresIn: 86400 });
 
@@ -56,6 +56,7 @@ const userInfo = async function (req, res) {
     if (req.session.token){
         let userInfo = jwt.verify(req.session.token,secret)
         return resSuc(res, {
+            user_id : userInfo.user_id,
             user_name : userInfo.user_name
         });
     }else {

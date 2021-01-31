@@ -17,15 +17,18 @@ const Works = mysql.define('works', {
     w_title: {
         type: Sequelize.STRING
     },
+    displayTime : {
+        type: Sequelize.STRING
+    },
     w_link: {
         type: Sequelize.STRING
     },
-    // w_content:{
-    //     type: Sequelize.TEXT
-    // },
-    // w_img_url: {
-    //     type: Sequelize.STRING
-    // },
+    w_content:{
+        type: Sequelize.TEXT
+    },
+    w_img_url: {
+        type: Sequelize.STRING
+    },
     createdAt: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW,
