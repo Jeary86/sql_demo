@@ -69,7 +69,7 @@ const wxUserInfo = mysql.define('wxuserinfo',{
 
 // wxUser.hasOne(wxUserInfo,{as : 'user'});
 
-wxUserInfo.belongsTo(wxUser,{  foreignKey: 'uuId', targetKey: 'uuId', as: 'data' }); // 会为wxUserInfo 添加 wxUserId 属性
+wxUserInfo.belongsTo(wxUser,{  foreignKey: 'uuId', targetKey: 'uuId', as: 'wxuser' }); // 会为wxUserInfo 添加 wxUserId 属性
 
 
 // wxUserInfo.belongsTo(wxUser,{

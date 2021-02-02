@@ -30,11 +30,11 @@ sequelize.authenticate()
     });
 
 // sequelize.sync()
-//     .then(() => {
-//         console.log('init db ok')
-//     })
-//     .catch(err => {
-//         console.log('init db error', err)
-//     })
+// .then(() => {
+//     console.log('init db ok')
+// })
+// .catch(err => {
+//     console.log('init db error', err)
+// })
 
 module.exports = sequelize

@@ -19,7 +19,7 @@ const wxLogin = async function (req, res) {
 
             let dataJson = JSON.parse(req)
 
-            // console.log(data)
+            // console.log(dataJson)
 
             // let params = {
             //     openid: "oVeG45UgIY-e-2YS4LsqBv38ipoM",
@@ -37,6 +37,7 @@ const wxLogin = async function (req, res) {
             wxUser.findOne({
                 where: {
                     openid:dataJson.openid
+                    // openid: "oVeG45UgIY-e-2YS4LsqBv38ipoM"
                 }
             }).then(rest => {
 
@@ -91,7 +92,11 @@ const wxLogin = async function (req, res) {
 }
 
 const wxSetUserInfo = async function(req,res){
+
+    let token = jwt.verify(req.body.uuId,secret)
+
     let params = {
+        // uuId : "",
         nickName: "",
         province: "",
         city : "",
@@ -101,34 +106,74 @@ const wxSetUserInfo = async function(req,res){
 
     Object.assign(params, req.body)
 
-    console.log(params.gender)
-
-    if (params.gender === '1'){
+    if (params.gender === 1){
         params.gender = '男'
     }else {
         params.gender = '女'
     }
 
-    // wxUserInfo.create(params)
-    // .then(resul =>{
-    //     return resMsg(res, resul)
-    // })
+    // return resMsg(res, params)
 
-    wxUserInfo.findAll({
-        attributes: ['uuId','nickName','province'],
+    wxUserInfo.findOne({
         include:[{
             model : wxUser,
-            as : 'data',
-            attributes: ['openid']
+            as : 'wxuser',
+            attributes: ['uuId']
         }],
-        where : {
-            // nickName : 'jeary',
-            '$data.id$': 1
-        },
-        // raw:true
+        where :{
+            uuId : token.uuId,
+        }
     }).then(rest =>{
-        return resMsg(res, rest)
+        params.uuId = token.uuId
+        // token已存在 修改token
+
+        // return resMsg(res, rest)
+
+        if (rest){
+            console.log("token已存在")
+            // return resMsg(res, "token已存在")
+            wxUserInfo.update(params,{
+                silent: false,
+                where : {
+                    id : rest.id
+                }
+            }).then(restl =>{
+                return resMsg(res, restl)
+            }).catch(err=>{
+                return resMsg(res, err)
+            })
+
+        }else {
+            console.log("token不存在")
+            // return resMsg(res, "token不存在")
+            wxUserInfo.create(params)
+            .then(restl =>{
+                return resMsg(res, restl)
+            }).catch(err=>{
+                return resMsg(res, err)
+            })
+        }
+
+    }).catch(err=>{
+        return resMsg(res, err)
     })
+
+
+    // wxUserInfo.findAll({
+    //     attributes: ['uuId','nickName','province'],
+    //     include:[{
+    //         model : wxUser,
+    //         as : 'data',
+    //         attributes: ['uuId']
+    //     }],
+    //     where : {
+    //         uuId : token,
+    //         // '$data.uuId$': token
+    //     },
+    //     // raw:true
+    // }).then(rest =>{
+    //     return resMsg(res, rest)
+    // })
 
 
 }
