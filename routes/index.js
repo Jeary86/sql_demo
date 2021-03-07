@@ -3,7 +3,7 @@ const uploadImg = require('../src/uploadImg')
 const { register , delUser , updateUser ,userList  } = require('../src/register')
 const { login , clearUser , userInfo } = require('../src/login');
 const { uploadWorks , worksList , delWorks , worksDetails , worksDetailsSave } = require('../src/works');
-const { getTest , setTest1 , setTest2 ,testToken } = require('../src/test-api');
+const { getTest , setTest1 , setTest2 ,testToken ,testSetSort ,testGetList } = require('../src/test-api');
 const { waChat } = require('../src/wachat')
 
 const routers = (router) => {
@@ -17,6 +17,8 @@ const routers = (router) => {
     router.get('/getTest',getTest);
     router.post('/setTest1',setTest1);
     router.post('/setTest2',setTest2);
+    router.post('/testSetSort',testSetSort);
+    router.post('/testGetList',testGetList);
     /** 解析token **/
     router.get('/testToken',testToken);
     /** 测试号验证 **/

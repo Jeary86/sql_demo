@@ -7,6 +7,7 @@
 const Sequelize = require('sequelize')
 let mysql = require('./index')
 let moment = require('moment');
+const myCrypto = require('../utils/crypto');
 
 const User = mysql.define('user', {
     user_id: {
@@ -28,6 +29,11 @@ const User = mysql.define('user', {
         type: Sequelize.STRING,
         allowNull: false,
     },
+    user_role : {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: '0',
+    },
     createdAt: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW,
@@ -45,10 +51,19 @@ const User = mysql.define('user', {
     }
 });
 
+
+
+
+// User.sync({ alter: true }); //更新字段信息
+
 // User.sync({force: true}).then(() => {
 //     // 表已创建
 //     console.log('创建表')
-//     return;
+//     return User.create({
+//         user_name : 'admin',
+//         user_password : myCrypto('admin'),
+//         user_role : 1
+//     })
 // });
 
 module.exports = User

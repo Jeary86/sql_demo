@@ -4,7 +4,7 @@
  * @Date: 2021/1/31 08:33
  */
 
-const { test , products } = require('../models/test')
+const { test , products ,testSort } = require('../models/test')
 const jwt = require('jsonwebtoken');
 const secret = require('../utils/jwtKey')
 
@@ -81,9 +81,62 @@ const testToken = async function(req,res){
     })
 }
 
+const testSetSort = async function(req,res){
+
+    let params = {
+        name : req.body.name,
+        sort : 0
+    }
+
+
+    testSort.findAll({order:[['id','DESC']],limit:1}).then(resul =>{
+
+        params.sort = resul[0].id
+
+        params.sort +=1
+
+        testSort.create(params)
+            .then(resul =>{
+
+                res.json({
+                    msg: resul
+                })
+
+            })
+
+    }).catch(err => {
+
+        params.sort +=1
+
+        testSort.create(params)
+            .then(resul =>{
+
+                res.json({
+                    msg: resul
+                })
+
+            })
+    })
+
+}
+
+const testGetList = async function(req,res){
+
+    testSort.findAll({
+        order: [['sort','DESC']],
+    }).then(resul =>{
+        res.json({
+            msg: resul
+        })
+    })
+
+}
+
 module.exports = {
     getTest,
     setTest1,
     setTest2,
-    testToken
+    testToken,
+    testSetSort,
+    testGetList
 }

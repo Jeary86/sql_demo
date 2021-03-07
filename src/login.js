@@ -29,6 +29,7 @@ const login = async function (req, res) {
 
         if (rest) {
             params.user_id = rest.dataValues.user_id
+            params.user_role =rest.dataValues.user_role
 
             req.session.token = jwt.sign(params, secret, { expiresIn: 86400 });
 
@@ -57,7 +58,8 @@ const userInfo = async function (req, res) {
         let userInfo = jwt.verify(req.session.token,secret)
         return resSuc(res, {
             user_id : userInfo.user_id,
-            user_name : userInfo.user_name
+            user_name : userInfo.user_name,
+            user_role : userInfo.user_role
         });
     }else {
         return resFun(res, 20000)

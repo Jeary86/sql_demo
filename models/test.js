@@ -62,7 +62,32 @@ products.belongsTo(test, { foreignKey: 'testId', targetKey: 'testId', as: 'test'
 //     return;
 // });
 
+const testSort = mysql.define('test_sort', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    name: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    sort: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+    }
+},{
+    timestamps : false,
+})
+
+// testSort.sync({force: true}).then(() => {
+//     // 表已创建
+//     console.log('创建表')
+//     return;
+// });
+
 module.exports = {
     test,
-    products
+    products,
+    testSort
 }

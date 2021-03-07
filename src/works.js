@@ -71,6 +71,7 @@ const worksList = async function (req, res) {
     // return resMsg(res, params);
 
     Works.findAndCountAll({
+        order: [['id','DESC']],
         limit: params.limit,
         offset: params.limit * (params.page - 1),
     }).then(rest =>{
@@ -78,8 +79,6 @@ const worksList = async function (req, res) {
     }).catch(err => {
         return resMsg(res, err);
     })
-
-
 }
 
 const worksDetails = async function (req, res) {
